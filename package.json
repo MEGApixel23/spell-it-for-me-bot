@@ -1,20 +1,20 @@
 {
   "name": "bot_test",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "@google-cloud/speech": "2.1.1",
-    "dotenv": "^6.2.0",
+    "dotenv": "6.2.0",
     "telegraf": "3.25.5"
   },
   "devDependencies": {
     "eslint": "5.11.1",
     "eslint-config-standard": "12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "8.0.0",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0"
   },
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION index.js",
