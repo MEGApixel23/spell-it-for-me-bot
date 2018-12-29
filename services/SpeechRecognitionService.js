@@ -1,34 +1,62 @@
-const fs = require('fs')
-const speech = require('@google-cloud/speech')
+const request = require('request')
+const mm = require('music-metadata')
 
 class SpeechRecognitionService {
-  async speechToText (filePath) {
-    // Creates a client
-    const client = new speech.SpeechClient()
+  constructor ({ client, languageCode, encoding, rateOptions }) {
+    this.client = client
+    this.languageCode = languageCode || 'ru-RU'
+    this.encoding = encoding || 'OGG_OPUS'
+    this.rateOptions = rateOptions || [8000, 12000, 16000, 24000, 48000]
+  }
 
-    // Reads a local audio file and converts it to base64
-    const file = fs.readFileSync(filePath)
-    const audioBytes = file.toString('base64')
-
-    // The audio file's encoding, sample rate in hertz, and BCP-47 language code
-    const audio = {
-      content: audioBytes
-    }
-    const request = {
-      audio,
+  async speechToText ({ link }) {
+    const { content, sampleRate } = await this.getFileContent(link)
+    const requestBody = {
+      audio: {
+        content
+      },
       config: {
-        encoding: 'OGG_OPUS',
-        languageCode: 'ru-RU',
-        sampleRateHertz: 48000
+        encoding: this.encoding,
+        languageCode: this.languageCode,
+        sampleRateHertz: sampleRate
       }
     }
-
-    // Detects speech in the audio file
-    const [response] = await client.recognize(request)
+    const [response] = await this.client.recognize(requestBody)
 
     return response.results
       .map(result => result.alternatives[0].transcript)
       .join('\n')
+  }
+
+  async getFileContent (url) {
+    return new Promise((resolve, reject) => (
+      request({ url, encoding: null }, async (err, response, body) => {
+        const content = Buffer.from(body, 'utf8').toString('base64')
+        const sampleRate = await this.getSampleRate(body)
+
+        if (err) {
+          return reject(err)
+        }
+
+        return resolve({ content, sampleRate })
+      })
+    ))
+  }
+
+  async getSampleRate (body) {
+    const { format: { sampleRate } } = await mm.parseBuffer(body)
+
+    for (let i = 0; i < this.rateOptions.length; i++) {
+      if (sampleRate === this.rateOptions[i]) {
+        return sampleRate
+      }
+
+      if (sampleRate < this.rateOptions[i]) {
+        return this.rateOptions[i]
+      }
+    }
+
+    return 0
   }
 }
 

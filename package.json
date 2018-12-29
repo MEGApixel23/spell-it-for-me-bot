@@ -6,7 +6,10 @@
   "dependencies": {
     "@google-cloud/speech": "2.1.1",
     "dotenv": "6.2.0",
-    "telegraf": "3.25.5"
+    "music-metadata": "^3.3.2",
+    "request": "^2.88.0",
+    "telegraf": "3.25.5",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "5.11.1",
@@ -17,7 +20,7 @@
     "eslint-plugin-standard": "4.0.0"
   },
   "scripts": {
-    "start": "node $NODE_DEBUG_OPTION index.js",
+    "start": "GOOGLE_APPLICATION_CREDENTIALS=config/service-account.json node $NODE_DEBUG_OPTION index.js",
     "speech": "GOOGLE_APPLICATION_CREDENTIALS=config/service-account.json node $NODE_DEBUG_OPTION speech.js"
   },
   "author": "",

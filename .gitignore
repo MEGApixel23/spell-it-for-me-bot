@@ -2,3 +2,4 @@
 /config/service-account.json
 node_modules
 .idea
+/logs/*.log
