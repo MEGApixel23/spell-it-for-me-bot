@@ -1,0 +1,5 @@
+apps:
+  - script: index.js
+    name: pm2-docker
+    env_production:
+      NODE_ENV: production
