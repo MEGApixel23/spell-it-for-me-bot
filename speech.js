@@ -1,7 +1,8 @@
 const speech = require('@google-cloud/speech')
 const SpeechRecognitionService = require('./services/SpeechRecognitionService')
+const { telegramToken } = require('./config/config')
 
-const link = 'https://api.telegram.org/file/bot721376645:AAH-DOb-V6yYm-ktRfKTKXpaAVdKi8XY6v0/voice/file_25.oga'
+const link = `https://api.telegram.org/file/bot${telegramToken}/voice/file_25.oga`
 
 new SpeechRecognitionService({ client: new speech.SpeechClient() })
   .speechToText({ link })
