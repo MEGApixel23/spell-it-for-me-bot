@@ -2,11 +2,12 @@ const Telegraf = require('telegraf')
 const Telegram = require('telegraf/telegram')
 const speech = require('@google-cloud/speech')
 
-const { telegramToken } = require('./config/config')
+const { telegramToken, s3: s3Config } = require('./config/config')
 const SpeechRecognitionService = require('./services/SpeechRecognitionService')
 const logger = require('./services/Logger')
 const UserModel = require('./models/UserModel')
 const messages = require('./i18n/messages.ru')
+const StorageService = require('./services/StorageService')
 
 const bot = new Telegraf(telegramToken)
 const telegramApi = new Telegram(telegramToken)
@@ -63,7 +64,11 @@ bot.on('voice', async (ctx) => {
 
     logger.info({ fileId, response, username, firstName, lastName })
 
-    return ctx.reply(response)
+    await ctx.reply(response)
+
+    new StorageService(s3Config)
+      .storeVoice(link, 'test.ogg')
+      .catch(e => logger.error(e))
   } catch (e) {
     ctx.reply(messages.error)
     throw e

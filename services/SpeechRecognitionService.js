@@ -1,5 +1,6 @@
-const request = require('request')
 const mm = require('music-metadata')
+
+const DownloadFileService = require('./DownloadFileService')
 
 class SpeechRecognitionService {
   constructor ({ client, languageCode, encoding, rateOptions }) {
@@ -29,18 +30,11 @@ class SpeechRecognitionService {
   }
 
   async getFileContent (url) {
-    return new Promise((resolve, reject) => (
-      request({ url, encoding: null }, async (err, response, body) => {
-        const content = Buffer.from(body, 'utf8').toString('base64')
-        const sampleRate = await this.getSampleRate(body)
+    const body = await DownloadFileService.download(url)
+    const content = Buffer.from(body, 'utf8').toString('base64')
+    const sampleRate = await this.getSampleRate(body)
 
-        if (err) {
-          return reject(err)
-        }
-
-        return resolve({ content, sampleRate })
-      })
-    ))
+    return { content, sampleRate }
   }
 
   async getSampleRate (body) {
