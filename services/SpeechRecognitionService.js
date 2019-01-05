@@ -19,7 +19,8 @@ class SpeechRecognitionService {
       config: {
         encoding: this.encoding,
         languageCode: this.languageCode,
-        sampleRateHertz: sampleRate
+        sampleRateHertz: sampleRate,
+        enableAutomaticPunctuation: true
       }
     }
     const [response] = await this.client.recognize(requestBody)
