@@ -21,6 +21,9 @@ const User = db.define('user', {
   raw: {
     type: Sequelize.JSON
   }
+}, {
+  charset: 'utf8',
+  collate: 'utf8_unicode_ci'
 })
 
 module.exports = User

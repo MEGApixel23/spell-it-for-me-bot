@@ -2,12 +2,15 @@ const Sequelize = require('sequelize')
 
 const db = require('./../services/Db')
 
-module.exports = db.define('message', {
-  telegramUserId: {
+module.exports = db.define('recognition', {
+  filename: {
     type: Sequelize.STRING
   },
-  raw: {
-    type: Sequelize.JSON
+  text: {
+    type: Sequelize.TEXT
+  },
+  telegramUserId: {
+    type: Sequelize.STRING
   }
 }, {
   charset: 'utf8',

@@ -1,17 +1,20 @@
 module.exports = {
   up: (queryInterface, Sequelize) => (
-    queryInterface.createTable('messages', {
+    queryInterface.createTable('recognitions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      telegramUserId: {
+      filename: {
         type: Sequelize.STRING
       },
-      raw: {
-        type: Sequelize.JSON
+      text: {
+        type: Sequelize.TEXT
+      },
+      telegramUserId: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -26,5 +29,5 @@ module.exports = {
       collate: 'utf8_unicode_ci'
     })
   ),
-  down: (queryInterface) => queryInterface.dropTable('messages')
+  down: queryInterface => queryInterface.dropTable('recognitions')
 }
