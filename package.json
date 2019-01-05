@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION index.js",
     "speech": "node $NODE_DEBUG_OPTION speech.js",
-    "serve:production": "pm2-docker process.yml --env production",
+    "serve:production": "pm2-docker process.yml",
     "migrate": "sequelize db:migrate --env migration"
   },
   "dependencies": {
