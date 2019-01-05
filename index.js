@@ -64,8 +64,7 @@ bot.on('voice', async (ctx) => {
 
     logger.info({ fileId, response, username, firstName, lastName })
 
-    await ctx.reply(response)
-
+    ctx.reply(response)
     new StorageService(s3Config)
       .storeVoice(link, 'test.ogg')
       .catch(e => logger.error(e))
