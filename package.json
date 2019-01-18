@@ -1,18 +1,22 @@
 {
   "name": "bot_test",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION index.js",
-    "speech": "NODE_DEBUG_OPTION speech.js",
-    "serve:production": "pm2-docker process.yml --env production"
+    "speech": "node $NODE_DEBUG_OPTION speech.js",
+    "serve:production": "pm2-docker process.yml",
+    "migrate": "sequelize db:migrate --env migration"
   },
   "dependencies": {
     "@google-cloud/speech": "2.1.1",
+    "aws-sdk": "2.384.0",
     "dotenv": "6.2.0",
     "music-metadata": "3.3.2",
+    "mysql2": "1.6.4",
     "request": "2.88.0",
+    "sequelize": "4.42.0",
     "telegraf": "3.25.5",
     "winston": "3.1.0"
   },
@@ -22,7 +26,8 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-node": "8.0.0",
     "eslint-plugin-promise": "4.0.1",
-    "eslint-plugin-standard": "4.0.0"
+    "eslint-plugin-standard": "4.0.0",
+    "sequelize-cli": "5.4.0"
   },
   "author": "",
   "license": "ISC"
