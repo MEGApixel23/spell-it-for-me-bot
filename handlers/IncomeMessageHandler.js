@@ -11,8 +11,8 @@ class IncomeMessageHandler {
     this.logger.debug(ctx.update.message)
 
     return Promise.all([
-      this.createUserIfNotExist(ctx.update.message.from),
-      this.storeMessage(ctx.update.message)
+      this.createUserIfNotExist(ctx.from),
+      this.storeMessage(ctx.message || ctx.callbackQuery)
     ])
   }
 

@@ -53,6 +53,12 @@ class SpeechRecognitionService {
 
     return 0
   }
+
+  setLanguageCode (languageCode) {
+    this.languageCode = languageCode
+
+    return this
+  }
 }
 
 module.exports = SpeechRecognitionService
