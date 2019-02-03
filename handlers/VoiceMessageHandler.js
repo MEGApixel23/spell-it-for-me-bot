@@ -2,9 +2,11 @@ const Telegram = require('telegraf/telegram')
 const speech = require('@google-cloud/speech')
 
 const messages = require('./../i18n/messages.ru')
+const { defaultLanguageCode } = require('./../config/config')
 const StorageService = require('./../services/StorageService')
 const SpeechRecognitionService = require('./../services/SpeechRecognitionService')
 const RecognitionModel = require('./../models/RecognitionModel')
+const UserModel = require('./../models/UserModel')
 
 const speechClient = new speech.SpeechClient({
   keyFilename: `${__dirname}/../config/service-account.json`
@@ -27,9 +29,16 @@ class VoiceMessageHandler {
         first_name: firstName,
         last_name: lastName,
         id: telegramUserId
-      } = ctx.update.message.from
+      } = ctx.from
 
       this.telegramApi.sendChatAction(ctx.chat.id, 'typing')
+
+      const { selectedLanguageCode } = await UserModel.findOne({
+        where: { telegramId: telegramUserId },
+        attributes: ['selectedLanguageCode']
+      })
+
+      speechRecognitionService.setLanguageCode(selectedLanguageCode || defaultLanguageCode)
 
       const link = await this.telegramApi.getFileLink(fileId)
       const result = await speechRecognitionService.speechToText({ link })
