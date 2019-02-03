@@ -20,6 +20,9 @@ const User = db.define('user', {
   },
   raw: {
     type: Sequelize.JSON
+  },
+  selectedLanguageCode: {
+    type: Sequelize.STRING
   }
 }, {
   charset: 'utf8',
